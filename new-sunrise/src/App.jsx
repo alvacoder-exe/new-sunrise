@@ -2,38 +2,125 @@ import React, { useState } from "react";
 import Lore from "./Lore";
 
 // Cartas temáticas para New Sunrise
-const alvarDeck = [
+const Deck = [
   { id: 1, name: "Guardabosque Al'var", type: "Guerrero", faction: "Al'var", attack: 8, defense: 12, hp: 15, ability: "+2 DEF en bosques" },
   { id: 2, name: "Druida de las Runas", type: "Mago", faction: "Al'var", attack: 12, defense: 6, hp: 10, ability: "Cura 3 HP aliado" },
   { id: 3, name: "Espíritu del Bosque", type: "Criatura", faction: "Al'var", attack: 10, defense: 8, hp: 12, ability: "Esquivar primer ataque" },
-  { id: 4, name: "Sabio Ancestral", type: "Mago", faction: "Al'var", attack: 6, defense: 10, hp: 14, ability: "Robar carta extra" },
-  { id: 5, name: "Guerrero Rúnico", type: "Guerrero", faction: "Al'var", attack: 14, defense: 9, hp: 13, ability: "Ataque extra a golems" },
-];
-
-const mataisDeck = [
   { id: 6, name: "Soldado de Mat'ais", type: "Guerrero", faction: "Mat'ais", attack: 12, defense: 7, hp: 12, ability: "+2 ATK primera ronda" },
   { id: 7, name: "Ingeniero de Guerra", type: "Técnico", faction: "Mat'ais", attack: 9, defense: 11, hp: 11, ability: "Reparar 5 HP aliado" },
   { id: 8, name: "Golem de Escoria", type: "Máquina", faction: "Mat'ais", attack: 15, defense: 13, hp: 16, ability: "Ignora 3 DEF" },
   { id: 9, name: "Artillero de Vapor", type: "Técnico", faction: "Mat'ais", attack: 13, defense: 5, hp: 10, ability: "Daño área 2" },
   { id: 10, name: "Asalto Sombrío", type: "Guerrero", faction: "Mat'ais", attack: 11, defense: 8, hp: 11, ability: "Ataque rápido" },
+  { id: 11, name: "Protector de Núcleos", type: "Máquina", faction: "Mat'ais", attack: 3, defense: 10, hp: 14, ability: "Protege a sus aliados" },
+  { id: 12, name: "Mago de Vapor", type: "Mago", faction: "Mat'ais", attack: 8, defense: 8, hp: 12, ability: "Daño área 1" },
+  { id: 13, name: "Destructor de Almas", type: "Guerrero", faction: "Mat'ais", attack: 16, defense: 6, hp: 10, ability: "Roba vida igual a daño" },
 ];
 
 // Piedras Rúnicas
-const runicStones = {
-  alvar: { name: "Semilla Ancestral", growth: 0, maxGrowth: 10, ability: "Invoca Espíritu Guardián" },
-  matais: { name: "Núcleo de Voluntad", charge: 0, maxCharge: 8, ability: "Rayo Devastador" }
-};
+/*const runicStones = () => {
+  const stones = {
+    alvar: { name: "Semilla Ancestral", growth: 0, maxGrowth: 10, ability: "Potencia un soldado" },
+    matais: { name: "Núcleo de Voluntad", charge: 0, maxCharge: 8, ability: "Rayo Devastador" }
+  }; if (stones.alvar.growth === stones.alvar.maxGrowth) {
+    return (
+    <button> 
+      Usar Semilla Ancestral
+    </button>
+    )
+  }
+    if (stones.matais.charge === stones.matais.maxCharge) {
+      return (
+      <button onClick={rayoDevastador}>
+        Usar Rayo Devastador
+      </button>
+      )
+    }
+  }
+;*/
 
-function getInitialHand(deck) {
-  // Mejor función para obtener mano inicial
-  const shuffled = [...deck].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, 3).map(card => ({ ...card }));
+function runicStones({ stones, enemyCard, setEnemyCard, setStones }) {
+  return (
+    <>
+            {potenciador}
+        {stones.alvar.growth === stones.alvar.maxGrowth && (
+          <button>
+            Usar Semilla Ancestral
+          </button>
+        )};
+
+      {rayoDevastador}
+      <button
+        onClick={() =>
+          rayoDevastador(enemyCard, stones, setEnemyCard, setStones)
+        }
+        disabled={stones.matais.charge < stones.matais.maxCharge}
+      >
+        Usar Rayo Devastador
+      </button>
+    </>
+  );
+}
+
+function potenciador(playerCard, stones, setPlayerCard, setStones) {
+  if (stones.alvar.growth < stones.alvar.maxGrowth) {
+    console.log("La piedra no está cargada.");
+    return;
+  }
+
+  // Daño directo
+  setPlayerCard(prev => ({
+    ...prev,
+    hp: prev.hp + 10
+  }));
+  setStones(prev => ({
+    ...prev,
+    alvar: {
+      ...prev.alvar,
+      growth: 0,
+      used: true
+    }
+  }));
+}
+function rayoDevastador(enemyCard, stones, setEnemyCard, setStones) {
+  if (stones.matais.charge < stones.matais.maxCharge) {
+    console.log("La piedra no está cargada.");
+    return;
+  }
+
+  // Daño directo
+  setEnemyCard(prev => ({
+    ...prev,
+    hp: prev.hp - 20
+  }));
+
+  // Resetear piedra SIN mutar
+  setStones(prev => ({
+    ...prev,
+    matais: {
+      ...prev.matais,
+      charge: 0,
+      used: true
+    }
+  }));
+
+  console.log("⚡ Rayo Devastador aplicado!");
 }
 
 
 
-function Navbar({ onMenuChange, isMinimized, onToggleMinimize, currentMenu }) {
-  if (isMinimized) {
+function getInitialHand(deck, player) {
+  // Mejor función para obtener mano inicial
+  if (player === "Alvar") {
+  return deck.slice(0, 3).map(card => ({ ...card }));
+} 
+    const shuffled = [...deck].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, 3).map(card => ({ ...card }));
+
+};
+
+
+function Navbar({ onMenuChange, isMaximized, onToggleMaximize, currentMenu }) {
+  if (isMaximized) {
     return (
       <div style={{
         position: 'fixed',
@@ -50,7 +137,7 @@ function Navbar({ onMenuChange, isMinimized, onToggleMinimize, currentMenu }) {
         zIndex: 1000,
         boxShadow: '0 2px 10px rgba(0,0,0,0.3)',
       }}
-      onClick={onToggleMinimize}
+      onClick={onToggleMaximize}
       title="Abrir menú"
       >
         ☰
@@ -69,12 +156,11 @@ function Navbar({ onMenuChange, isMinimized, onToggleMinimize, currentMenu }) {
       zIndex: 1000,
       boxShadow: '0 4px 15px rgba(0,0,0,0.3)',
       minWidth: '200px',
-      gap: '0.5rem',
     }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
         <h3 style={{ color: 'white', margin: 0 }}>Menú</h3>
         <button 
-          onClick={onToggleMinimize}
+          onClick={onToggleMaximize}
           style={{
             background: 'none',
             border: 'none',
@@ -84,11 +170,11 @@ function Navbar({ onMenuChange, isMinimized, onToggleMinimize, currentMenu }) {
           }}
           title="Minimizar"
         >
-          ➖
+          ✕
         </button>
       </div>
       
-      <div className="menu-button"/*style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}*/>
+      <div className="menu-button" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
         <button 
           onClick={() => onMenuChange('battle')}
           style={{
@@ -161,17 +247,27 @@ function Navbar({ onMenuChange, isMinimized, onToggleMinimize, currentMenu }) {
 }
 
 export default function App() { 
-  const [playerField, setPlayerField] = useState(() => getInitialHand(alvarDeck));
-  const [enemyField, setEnemyField] = useState(() => getInitialHand(mataisDeck));
+  const [playerField, setPlayerField] = useState(() => getInitialHand(Deck.slice(0, 3)));
+  const [enemyField, setEnemyField] = useState(() => getInitialHand(Deck));
   const [turn, setTurn] = useState('player');
   const [selectedAttacker, setSelectedAttacker] = useState(null);
   const [log, setLog] = useState([]);
   const [gameOver, setGameOver] = useState(false);
   const [menu, setMenu] = useState('battle');
   const [gameOverMessage, setGameOverMessage] = useState("");
-  const [playerStone, setPlayerStone] = useState({ ...runicStones.alvar });
-  const [enemyStone, setEnemyStone] = useState({ ...runicStones.matais });
-  const [navbarMinimized, setNavbarMinimized] = useState(false);
+  const [playerStone, setPlayerStone] = useState({
+    name: "Semilla Ancestral",
+    growth: 0,
+    maxGrowth: 10,
+    ability: "Potencia un soldado"
+  });
+  const [enemyStone, setEnemyStone] = useState({ 
+    name: "Núcleo de Voluntad",
+    charge: 0,
+    maxCharge: 8,
+    ability: "Rayo Devastador"
+  });
+  const [navbarMaximized, setNavbarMaximized] = useState(true);
 
   // DEBUG: Mostrar estado actual en consola
   React.useEffect(() => {
@@ -198,37 +294,45 @@ export default function App() {
     }
   } */
 
-  function updateRunicStone(attackerFaction) {
-    if (attackerFaction === "Al'var") {
-      setPlayerStone(prev => {
-        const newGrowth = Math.min(prev.growth + 2, prev.maxGrowth);
-        if (newGrowth === prev.maxGrowth) {
-          addLog("¡La Semilla Ancestral florece! Espíritu Guardián invocado!");
-        }
-        return { ...prev, growth: newGrowth };
-      });
-    } else {
-      setEnemyStone(prev => {
-        const newCharge = Math.min(prev.charge + 3, prev.maxCharge);
-        if (newCharge === prev.maxCharge) {
-          addLog("¡El Núcleo de Voluntad se sobrecarga! ¡Peligro inminente!");
-        }
-        return { ...prev, charge: newCharge };
-      });
-    }
+  function updateRunicStone(attacker) {
+    if (attacker === "player") {
+    setPlayerStone(prev => {
+      const newGrowth = Math.min(prev.growth + 2, prev.maxGrowth);
+
+      if (newGrowth === prev.maxGrowth && prev.growth !== prev.maxGrowth) {
+        addLog("¡La Semilla Ancestral florece! Espíritu Guardián invocado!");
+      }
+
+      return { ...prev, growth: newGrowth };
+    });
+  }
+
+  if (attacker === "enemy") {
+    setEnemyStone(prev => {
+      const newCharge = Math.min(prev.charge + 3, prev.maxCharge);
+
+      if (newCharge === prev.maxCharge && prev.charge !== prev.maxCharge) {
+        addLog("¡El Núcleo de Voluntad se sobrecarga! ¡Peligro inminente!");
+      }
+
+      return { ...prev, charge: newCharge };
+    });
+  }
   }
 
   function attack(attacker, target, isPlayer) {
     console.log("Ataque ejecutado:", { attacker: attacker.name, target: target.name, isPlayer });
     
-    let damage = attacker.attack - target.defense;
-    if (damage < 1) damage = 1;
+    let damage = Math.max(
+      1,
+      (attacker.attack || 0) - (target.defense || 0)
+    );
 
     const newTarget = { ...target, hp: target.hp - damage };
     addLog(`${attacker.name} (${attacker.faction}) ataca a ${target.name} por ${damage} daño!`);
 
     // Actualizar piedra rúnica
-    updateRunicStone(attacker.faction);
+    updateRunicStone(isPlayer ? "player" : "enemy");
 
     let newPlayerField = [...playerField];
     let newEnemyField = [...enemyField];
@@ -295,8 +399,8 @@ export default function App() {
   }
 
   function resetGame() {
-    setPlayerField(getInitialHand(alvarDeck));
-    setEnemyField(getInitialHand(mataisDeck));
+    setPlayerField(getInitialHand(Deck.slice(0, 3)));
+    setEnemyField(getInitialHand(Deck.slice(0, 12)));
     setTurn('player');
     setSelectedAttacker(null);
     setLog([]);
@@ -307,8 +411,10 @@ export default function App() {
     setEnemyStone({ ...runicStones.matais });
   }
 
-  function getFactionColor(faction) {
-    return faction === "Al'var" ? "#2E8B57" : "#B22222";
+  function getFactionColor(player) {
+    if (player === "Al'var") return '#2E8B57';
+    if (player === "Mat'ais") return '#B22222';
+    return '#333';
   }
 
   function handleMenuChange(newMenu) {
@@ -320,8 +426,8 @@ export default function App() {
 
  function renderBattle() {
     return (
-      <div className="game-tab">
-        <div className="factions-life">
+      <div className="game-tab" style={{ padding: '1rem', background: '#282828ff', borderRadius: '8px', color: 'white' }}>
+        <div className="factions-life" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
           <div className="faction">
             <h3 style={{ color: getFactionColor("Al'var") }}>Al'var - Semilla Ancestral</h3>
             <div style={{ 
@@ -358,86 +464,91 @@ export default function App() {
             <small>Carga: {enemyStone.charge}/{enemyStone.maxCharge}</small>
           </div>
         </div>
-
         <p><strong>Turno:</strong> {turn === 'player' ? "Al'var" : "Mat'ais"}</p>
+          <div className="faction-name" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
 
-        <h2 style={{ color: getFactionColor("Al'var") }}>Reino de Al'var</h2>
-        <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
-          {playerField.map(card => (
-            <div
-              key={card.id}
-              style={{
-                border: `2px solid ${getFactionColor(card.faction)}`,
-                padding: '0.5rem',
-                width: '150px',
-                background: '#506e50ff',
-                borderRadius: '8px'
-              }}
-            >
-              <h4>{card.name}</h4>
-              <p><strong>HP:</strong> {card.hp}</p>
-              <p><strong>ATK:</strong> {card.attack}</p>
-              <p><strong>DEF:</strong> {card.defense}</p>
-              <p><small><strong>Habilidad:</strong> {card.ability}</small></p>
-              {turn === 'player' && !gameOver && (
-                <button 
-                  onClick={() => setSelectedAttacker(card.id)}
-                  style={{
-                    background: selectedAttacker === card.id ? '#2E8B57' : '#ccc',
-                    color: selectedAttacker === card.id ? 'white' : 'black',
-                    padding: '0.3rem 0.6rem',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer'
-                  }}
-                >
-                  {selectedAttacker === card.id ? "Seleccionado" : "Seleccionar"}
-                </button>
-              )}
-            </div>
-          ))}
+            <h2 style={{ color: getFactionColor("Al'var") }}>Reino de Al'var</h2>
+
+            <h2 style={{ color: getFactionColor("Mat'ais") }}>Reino de Mat'ais</h2>
+
+          </div>
+        <div className="gameboard" style={{ display: 'flex' }}>
+          <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', marginRight: '2rem', paddingRight: '2.5rem', borderRight: '1px solid #555' }}>
+            {playerField.map(card => (
+              <div
+                key={card.id}
+                style={{
+                  border: `2px solid rgb(29, 128, 29)`,
+                  padding: '0.5rem',
+                  width: '150px',
+                  background: '#506e50ff',
+                  borderRadius: '8px'
+                }}
+              >
+                <h4>{card.name}</h4>
+                <p><strong>HP:</strong> {card.hp}</p>
+                <p><strong>ATK:</strong> {card.attack}</p>
+                <p><strong>DEF:</strong> {card.defense}</p>
+                <p><small><strong>Habilidad:</strong> {card.ability}</small></p>
+                {turn === 'player' && !gameOver && (
+                  <button 
+                    onClick={() => setSelectedAttacker(card.id)}
+                    style={{
+                      background: selectedAttacker === card.id ? '#2E8B57' : '#ccc',
+                      color: selectedAttacker === card.id ? 'white' : 'black',
+                      padding: '0.3rem 0.6rem',
+                      border: 'none',
+                      borderRadius: '4px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    {selectedAttacker === card.id ? "Seleccionado" : "Seleccionar"}
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+
+          
+          <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', padding: '0 0 0 0.5rem' }}>
+            {enemyField.map(card => (
+              <div
+                key={card.id}
+                style={{
+                  border: `2px solid rgb(172, 34, 34)`,
+                  padding: '0.5rem',
+                  width: '150px',
+                  background: '#883939ff',
+                  borderRadius: '8px'
+                }}
+              >
+                <h4>{card.name}</h4>
+                <p><strong>HP:</strong> {card.hp}</p>
+                <p><strong>ATK:</strong> {card.attack}</p>
+                <p><strong>DEF:</strong> {card.defense}</p>
+                <p><small><strong>Habilidad:</strong> {card.ability}</small></p>
+                {turn === 'player' && selectedAttacker !== null && !gameOver && (
+                  <button
+                    onClick={() => {
+                      playerAttackTarget(selectedAttacker, card.id);
+                      setSelectedAttacker(null);
+                    }}
+                    style={{ 
+                      background: '#B22222', 
+                      color: 'white',
+                      padding: '0.3rem 0.6rem',
+                      border: 'none',
+                      borderRadius: '4px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    ¡Atacar!
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
-
-        <h2 style={{ color: getFactionColor("Mat'ais") }}>Reino de Mat'ais</h2>
-        <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
-          {enemyField.map(card => (
-            <div
-              key={card.id}
-              style={{
-                border: `2px solid ${getFactionColor(card.faction)}`,
-                padding: '0.5rem',
-                width: '150px',
-                background: '#883939ff',
-                borderRadius: '8px'
-              }}
-            >
-              <h4>{card.name}</h4>
-              <p><strong>HP:</strong> {card.hp}</p>
-              <p><strong>ATK:</strong> {card.attack}</p>
-              <p><strong>DEF:</strong> {card.defense}</p>
-              <p><small><strong>Habilidad:</strong> {card.ability}</small></p>
-              {turn === 'player' && selectedAttacker !== null && !gameOver && (
-                <button
-                  onClick={() => {
-                    playerAttackTarget(selectedAttacker, card.id);
-                    setSelectedAttacker(null);
-                  }}
-                  style={{ 
-                    background: '#B22222', 
-                    color: 'white',
-                    padding: '0.3rem 0.6rem',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer'
-                  }}
-                >
-                  ¡Atacar!
-                </button>
-              )}
-            </div>
-          ))}
-        </div>
-
         <h2>Registro de Batalla</h2>
         <div style={{ 
           border: '1px solid #ccc', 
@@ -480,10 +591,10 @@ export default function App() {
 
   function renderCards() {
     return (
-      <div>
+      <div style={{ textAlign: 'center'}}>
         <h2>Ejército de Al'var</h2>
-        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap'}}>
-          {alvarDeck.map(card => (
+        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', width: '100%', justifyContent: 'center' }}>
+          {Deck.slice(0, 3).map(card => (
             <div key={card.id} style={{ 
               border: `2px solid ${getFactionColor(card.faction)}`,
               padding: '0.5rem', 
@@ -506,18 +617,31 @@ export default function App() {
       </div>
     );
   }
-
+ /*compra nuevas cartas del deck*/
   function renderShop() {
     return (
       <div>
-        <h2>Mercado de los Ecos</h2>
-        <p>Intercambia recursos por nuevos guerreros para tu ejército.</p>
-        <div style={{ border: '1px solid #ccc', padding: '1rem', margin: '1rem 0' }}>
-          <h3>Cartas Disponibles</h3>
-          <p>🏷️ Guerrero Élite - 50 recursos</p>
-          <p>🏷️ Mago Runico - 75 recursos</p>
-          <p>🏷️ Golem Defensivo - 60 recursos</p>
-          <button disabled>Próximamente...</button>
+
+
+        <h2>Comprar Cartas</h2>
+        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+          {Deck.map(card => (
+            <div key={card.id} style={{ 
+              border: `2px solid ${getFactionColor(card.faction)}`,
+              padding: '0.5rem', 
+              width: '150px',
+              background: '#4d4b4bff',
+              borderRadius: '8px'
+            }}>
+              <h4>{card.name}</h4>
+              <p><strong>Tipo:</strong> {card.type}</p>
+              <p><strong>HP:</strong> {card.hp}</p>
+              <p><strong>ATK:</strong> {card.attack}</p>
+              <p><strong>DEF:</strong> {card.defense}</p>
+              <p><small><strong>Habilidad:</strong> {card.ability}</small></p>
+              <button style={{ marginTop: '0.5rem' }}>Comprar</button>
+            </div>
+          ))}
         </div>
         <button onClick={() => setMenu('battle')}>Volver a la Batalla</button>
       </div>
@@ -528,14 +652,14 @@ export default function App() {
   <div style={{ padding: '1rem', fontFamily: 'sans-serif', maxWidth: '1200px', margin: '0 auto', minHeight: '100vh' }}>
     <Navbar 
       onMenuChange={handleMenuChange}
-      isMinimized={navbarMinimized}
-      onToggleMinimize={() => setNavbarMinimized(!navbarMinimized)}
+      isMaximized={navbarMaximized}
+      onToggleMaximize={() => setNavbarMaximized(!navbarMaximized)}
       currentMenu={menu}
     />
 
     {/* Contenido principal con margen dinámico */}
     <div style={{ 
-      marginTop: navbarMinimized ? '60px' : '180px',
+      marginTop: navbarMaximized ? '60px' : '180px',
       transition: 'margin-top 0.3s ease'
     }}>
       <header style={{ textAlign: 'center', marginBottom: '2rem' }}>
@@ -566,4 +690,5 @@ export default function App() {
     </div>
   </div>
 );
+};
 }
