@@ -1,42 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Lore from "./Lore";
+import "./App.css"
 
 // Cartas temáticas para New Sunrise
 const Deck = [
-  { id: 1, name: "Guardabosque Al'var", type: "Guerrero", faction: "Al'var", attack: 8, defense: 12, hp: 15, ability: "+2 DEF en bosques" },
-  { id: 2, name: "Druida de las Runas", type: "Mago", faction: "Al'var", attack: 12, defense: 6, hp: 10, ability: "Cura 3 HP aliado" },
-  { id: 3, name: "Espíritu del Bosque", type: "Criatura", faction: "Al'var", attack: 10, defense: 8, hp: 12, ability: "Esquivar primer ataque" },
-  { id: 6, name: "Soldado de Mat'ais", type: "Guerrero", faction: "Mat'ais", attack: 12, defense: 7, hp: 12, ability: "+2 ATK primera ronda" },
-  { id: 7, name: "Ingeniero de Guerra", type: "Técnico", faction: "Mat'ais", attack: 9, defense: 11, hp: 11, ability: "Reparar 5 HP aliado" },
-  { id: 8, name: "Golem de Escoria", type: "Máquina", faction: "Mat'ais", attack: 15, defense: 13, hp: 16, ability: "Ignora 3 DEF" },
-  { id: 9, name: "Artillero de Vapor", type: "Técnico", faction: "Mat'ais", attack: 13, defense: 5, hp: 10, ability: "Daño área 2" },
-  { id: 10, name: "Asalto Sombrío", type: "Guerrero", faction: "Mat'ais", attack: 11, defense: 8, hp: 11, ability: "Ataque rápido" },
-  { id: 11, name: "Protector de Núcleos", type: "Máquina", faction: "Mat'ais", attack: 3, defense: 10, hp: 14, ability: "Protege a sus aliados" },
-  { id: 12, name: "Mago de Vapor", type: "Mago", faction: "Mat'ais", attack: 8, defense: 8, hp: 12, ability: "Daño área 1" },
-  { id: 13, name: "Destructor de Almas", type: "Guerrero", faction: "Mat'ais", attack: 16, defense: 6, hp: 10, ability: "Roba vida igual a daño" },
+  { id: 1, name: "Guardabosque Al'var", type: "Guerrero", faction: "Al'var", attack: 8, defense: 12, hp: 15, ability: "+2 DEF en bosques", price: 3 },
+  { id: 2, name: "Druida de las Runas", type: "Mago", faction: "Al'var", attack: 12, defense: 6, hp: 10, ability: "Cura 3 HP aliado", price: 3 },
+  { id: 3, name: "Espíritu del Bosque", type: "Criatura", faction: "Al'var", attack: 10, defense: 8, hp: 12, ability: "Esquivar primer ataque", price: 3 },
+  { id: 6, name: "Soldado de Mat'ais", type: "Guerrero", faction: "Mat'ais", attack: 12, defense: 7, hp: 12, ability: "+2 ATK primera ronda", price: 4 },
+  { id: 7, name: "Ingeniero de Guerra", type: "Técnico", faction: "Mat'ais", attack: 9, defense: 11, hp: 11, ability: "Reparar 5 HP aliado", price: 3 },
+  { id: 8, name: "Golem de Escoria", type: "Máquina", faction: "Mat'ais", attack: 15, defense: 13, hp: 16, ability: "Ignora 3 DEF", price: 10 },
+  { id: 9, name: "Artillero de Vapor", type: "Técnico", faction: "Mat'ais", attack: 13, defense: 5, hp: 10, ability: "Daño área 2", price: 6 },
+  { id: 10, name: "Asalto Sombrío", type: "Guerrero", faction: "Mat'ais", attack: 11, defense: 8, hp: 11, ability: "Ataque rápido", price: 8 },
+  { id: 11, name: "Protector de Núcleos", type: "Máquina", faction: "Mat'ais", attack: 3, defense: 10, hp: 14, ability: "Protege a sus aliados", price: 3 },
+  { id: 12, name: "Mago de Vapor", type: "Mago", faction: "Mat'ais", attack: 8, defense: 8, hp: 12, ability: "Daño área 1", price: 3 },
+  { id: 13, name: "Destructor de Almas", type: "Guerrero", faction: "Mat'ais", attack: 16, defense: 6, hp: 10, ability: "Roba vida igual a daño", price: 10 },
+  { id: 14, name: "Guardián de Almas", type: "Mago", faction: "Mat'ais", attack: 6, defense: 8, hp: 14, ability: "Restaura vida a aliados", price: 3 },
 ];
 
-// Piedras Rúnicas
-/*const runicStones = () => {
-  const stones = {
-    alvar: { name: "Semilla Ancestral", growth: 0, maxGrowth: 10, ability: "Potencia un soldado" },
-    matais: { name: "Núcleo de Voluntad", charge: 0, maxCharge: 8, ability: "Rayo Devastador" }
-  }; if (stones.alvar.growth === stones.alvar.maxGrowth) {
-    return (
-    <button> 
-      Usar Semilla Ancestral
-    </button>
-    )
-  }
-    if (stones.matais.charge === stones.matais.maxCharge) {
-      return (
-      <button onClick={rayoDevastador}>
-        Usar Rayo Devastador
-      </button>
-      )
-    }
-  }
-;*/
+
+
+function getInitialHand(deck) {
+    const shuffled = [...deck].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, 3).map(card => ({ ...card }));
+};
 
 function runicStones({ stones, enemyCard, setEnemyCard, setStones }) {
   return (
@@ -105,19 +92,6 @@ function rayoDevastador(enemyCard, stones, setEnemyCard, setStones) {
 
   console.log("⚡ Rayo Devastador aplicado!");
 }
-
-
-
-function getInitialHand(deck, player) {
-  // Mejor función para obtener mano inicial
-  if (player === "Alvar") {
-  return deck.slice(0, 3).map(card => ({ ...card }));
-} 
-    const shuffled = [...deck].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, 3).map(card => ({ ...card }));
-
-};
-
 
 function Navbar({ onMenuChange, isMaximized, onToggleMaximize, currentMenu }) {
   if (isMaximized) {
@@ -247,7 +221,12 @@ function Navbar({ onMenuChange, isMaximized, onToggleMaximize, currentMenu }) {
 }
 
 export default function App() { 
-  const [playerField, setPlayerField] = useState(() => getInitialHand(Deck.slice(0, 3)));
+  let [playerDeck, setPlayerDeck] = useState([
+  { id: 1, name: "Soldado del Norte", type: "Guerrero", faction: null, attack: 10, defense: 7, hp: 12, ability: null, price: 5 },
+  { id: 2, name: "Mercenario del Norte", type: "Mercenario", faction: null, attack: 12, defense: 8, hp: 10, ability: null, price: 5 },
+  { id: 3, name: "Lobrego salvaje", type: "Lobo", faction: null, attack: 13, defense: 4, hp: 12, ability: null, price: 5 },
+]);
+  const [playerField, setPlayerField] = useState(() => getInitialHand(playerDeck.slice(0, 3)));
   const [enemyField, setEnemyField] = useState(() => getInitialHand(Deck));
   const [turn, setTurn] = useState('player');
   const [selectedAttacker, setSelectedAttacker] = useState(null);
@@ -268,6 +247,23 @@ export default function App() {
     ability: "Rayo Devastador"
   });
   const [navbarMaximized, setNavbarMaximized] = useState(true);
+  const [currentGold, setCurrentGold] = useState(10);
+  const buyCard = (card) => {
+    if (currentGold >= card.price) {
+      // Restar oro
+      setCurrentGold(prev => prev - card.price);
+
+      // Agregar carta al deck
+      setPlayerDeck(prev => {
+        if (prev.some(c => c.id === card.id)) return prev;
+        return [...prev, card];
+      });
+
+    } else {
+      console.log("No tenés suficiente oro");
+    }
+  };
+ 
 
   // DEBUG: Mostrar estado actual en consola
   React.useEffect(() => {
@@ -284,15 +280,12 @@ export default function App() {
     setLog(prev => [`[Turno ${turn}] ${message}`, ...prev].slice(0, 20)); 
   }
 
- /* function checkGameOver() {
-    if (playerField.length === 0) {
-      setGameOver(true);
-      setGameOverMessage("¡El Reino de Mat'ais prevalece! La tecnología domina sobre la naturaleza.");
-    } else if (enemyField.length === 0) {
-      setGameOver(true);
-      setGameOverMessage("¡El Reino de Al'var triunfa! La sabiduría ancestral renace.");
-    }
-  } */
+useEffect(() => {
+  if (enemyField.length === 0 && !gameOver) {
+    setGameOver(true);
+    setCurrentGold(prev => prev + 10);
+  }
+}, [enemyField, gameOver]);
 
   function updateRunicStone(attacker) {
     if (attacker === "player") {
@@ -361,6 +354,7 @@ export default function App() {
       if (newPlayerField.length === 0) {
         setGameOver(true);
         setGameOverMessage("¡El Reino de Mat'ais prevalece! La tecnología domina sobre la naturaleza.");
+        setCurrentGold(currentGold + 10);
       } else if (newEnemyField.length === 0) {
         setGameOver(true);
         setGameOverMessage("¡El Reino de Al'var triunfa! La sabiduría ancestral renace.");
@@ -399,7 +393,7 @@ export default function App() {
   }
 
   function resetGame() {
-    setPlayerField(getInitialHand(Deck.slice(0, 3)));
+    setPlayerField(getInitialHand(playerDeck.slice(0, 3)));
     setEnemyField(getInitialHand(Deck.slice(0, 12)));
     setTurn('player');
     setSelectedAttacker(null);
@@ -473,7 +467,7 @@ export default function App() {
 
           </div>
         <div className="gameboard" style={{ display: 'flex' }}>
-          <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', marginRight: '2rem', paddingRight: '2.5rem', borderRight: '1px solid #555' }}>
+          <div className="player-field">
             {playerField.map(card => (
               <div
                 key={card.id}
@@ -510,7 +504,7 @@ export default function App() {
           </div>
 
           
-          <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', padding: '0 0 0 0.5rem' }}>
+          <div className='enemy-field'>
             {enemyField.map(card => (
               <div
                 key={card.id}
@@ -620,14 +614,13 @@ export default function App() {
  /*compra nuevas cartas del deck*/
   function renderShop() {
     return (
-      <div>
-
-
-        <h2>Comprar Cartas</h2>
-        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+      <div className="main-shop">
+        <h2>Bienvenido a la tienda de mercenarios.</h2>
+        <h3>🪙 Oro disponible: {currentGold}</h3>
+        <div className='shop' style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
           {Deck.map(card => (
-            <div key={card.id} style={{ 
-              border: `2px solid ${getFactionColor(card.faction)}`,
+            <div className='shop-card' key={card.id} style={{ 
+              border: `2px solid #4d4b4bff`,
               padding: '0.5rem', 
               width: '150px',
               background: '#4d4b4bff',
@@ -639,7 +632,8 @@ export default function App() {
               <p><strong>ATK:</strong> {card.attack}</p>
               <p><strong>DEF:</strong> {card.defense}</p>
               <p><small><strong>Habilidad:</strong> {card.ability}</small></p>
-              <button style={{ marginTop: '0.5rem' }}>Comprar</button>
+              <p>{card.price} gold</p>
+              <button className='buy-button'style={{ marginTop: '0.5rem' }} onClick={buyCard(card)}>Comprar</button>
             </div>
           ))}
         </div>
@@ -647,6 +641,7 @@ export default function App() {
       </div>
     );
   }
+
 
   return (
   <div style={{ padding: '1rem', fontFamily: 'sans-serif', maxWidth: '1200px', margin: '0 auto', minHeight: '100vh' }}>
@@ -674,6 +669,7 @@ export default function App() {
             <button onClick={() => handleMenuChange('cards')}>Ver Ejército</button>
             <button onClick={() => handleMenuChange('lore')}>Conocer la Historia</button>
             <button onClick={() => resetGame()}>Nueva Batalla</button>
+            <button onClick={() => handleMenuChange('shop')}>Tienda</button>
           </div>
         </div>
       ) : menu === 'battle' ? (
