@@ -14,6 +14,55 @@
   gap: 0.75vw;
 }
 
+.player-field-card {
+  text-shadow: #000000  0px 10px 10px;
+  font-family:Georgia, 'Times New Roman', Times, serif ;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out;
+}
+
+.player-field-card button:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+.player-field-card button {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.player-field-card:hover {
+  transform: scale(1.05);
+}
+
+.player-field-card img {
+  width: 100%;
+  height: 100%;
+}
+
+.enemy-field-card {
+  text-shadow: #000000  0px 10px 10px;
+  font-family:Georgia, 'Times New Roman', Times, serif ;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out;
+}
+
+.enemy-field-card button:hover {
+  background-color: #fff;
+  color: #000;
+}
+
 
 
 
