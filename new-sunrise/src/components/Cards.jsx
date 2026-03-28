@@ -3,8 +3,8 @@ import { Deck } from '../hooks/useGameStore';
 
 function Cards({ onBack }) {
   return (
-    <div style={{ textAlign: 'center'}}>
-      <h2>Ejército de Al'var</h2>
+    <div style={{ textAlign: 'center', padding: '1rem' }}>
+      <h2>🏏 Ejército de Al'var</h2>
       <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', width: '100%', justifyContent: 'center' }}>
         {Deck.slice(0, 3).map(card => (
           <div key={card.id} style={{
@@ -25,8 +25,16 @@ function Cards({ onBack }) {
           </div>
         ))}
       </div>
-      <button onClick={onBack} style={{ marginTop: '1rem' }}>
-        Volver a la Batalla
+      <button onClick={onBack} style={{
+        marginTop: '1rem',
+        padding: '0.5rem 1rem',
+        backgroundColor: '#4CAF50',
+        color: 'white',
+        border: 'none',
+        borderRadius: '5px',
+        cursor: 'pointer'
+      }}>
+        Volver al Menú
       </button>
     </div>
   );

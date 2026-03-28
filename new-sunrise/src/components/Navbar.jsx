@@ -83,6 +83,19 @@ function Navbar({ onMenuChange, isMaximized, onToggleMaximize, currentMenu }) {
           🃏 Mis Cartas
         </button>
         <button
+          onClick={() => onMenuChange('inventory')}
+          style={{
+            background: currentMenu === 'inventory' ? '#3498db' : '#34495e',
+            color: 'white',
+            border: 'none',
+            padding: '0.5rem',
+            borderRadius: '5px',
+            cursor: 'pointer'
+          }}
+        >
+          📦 Inventario
+        </button>
+        <button
           onClick={() => onMenuChange('shop')}
           style={{
             background: currentMenu === 'shop' ? '#3498db' : '#34495e',

@@ -30,7 +30,7 @@ function Shop({ gameStore, onBack }) {
           </div>
         ))}
       </div>
-      <button onClick={onBack}>Volver a la Batalla</button>
+      <button onClick={onBack} style={{ display: 'block', margin: '0 auto', marginTop: '1rem'}}>Volver a la Batalla</button>
     </div>
   );
 }

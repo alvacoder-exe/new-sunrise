@@ -5,6 +5,7 @@ import Battle from "./components/Battle";
 import MainMenu from "./components/MainMenu";
 import Cards from "./components/Cards";
 import Shop from "./components/Shop";
+import Inventory from "./components/Inventory";
 import { useGameStore } from "./hooks/useGameStore";
 import "./App.css";
 
@@ -19,6 +20,7 @@ export default function App() {
     setNavbarMaximized,
     handleMenuChange,
     resetGame,
+    inventory,
   } = gameStore;
 
   return (
@@ -35,8 +37,9 @@ export default function App() {
         marginTop: navbarMaximized ? '60px' : '180px',
         transition: 'margin-top 0.3s ease'
       }}>
-        <header style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <h1>🌄 New Sunrise: La Guerra de Tabak</h1>
+        <header style={{ textAlign: 'center', marginBottom: '2rem', fontFamily: "URL('https://fontmeme.com/fuentes/fuente-mortuary/')" }}>
+          <h1>New Sunrise</h1>
+          <h2>La Guerra de Tabak</h2>
           <p style={{ color: '#666' }}>Al'var vs Mat'ais - La batalla por el futuro</p>
         </header>
 
@@ -53,7 +56,9 @@ export default function App() {
         ) : menu === 'battle' ? (
           <Battle gameStore={gameStore} />
         ) : menu === 'cards' ? (
-          <Cards onBack={() => handleMenuChange('battle')} />
+          <Cards onBack={() => handleMenuChange('menu')} />
+        ) : menu === 'inventory' ? (
+          <Inventory onBack={() => handleMenuChange('menu')} inventory={inventory} />
         ) : menu === 'shop' ? (
           <Shop gameStore={gameStore} onBack={() => handleMenuChange('battle')} />
         ) : menu === 'lore' ? (

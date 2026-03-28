@@ -1,3 +1,13 @@
+header h1 {
+  display: flex;
+  justify-content: center;
+
+  align-items: center;
+}
+.logo {
+ width: 5%;
+ border-radius: 50px;
+}
 
 .game-tab .player-field {
   display: flex;

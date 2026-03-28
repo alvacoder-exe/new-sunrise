@@ -1,5 +1,28 @@
 import { useState, useEffect } from 'react';
 
+// Sistema de Objetos con Rarezas
+export const ITEMS = [
+  // Comunes (60% probabilidad)
+  { id: 'diorita', name: 'Diorita', rarity: 'common', description: 'Piedra resistente para construcciones', probability: 25, image: "https://i.pinimg.com/736x/d0/f4/52/d0f4524768fa550d49cbec515bb06dd3.jpg" },
+  { id: 'marmol', name: 'Mármol', rarity: 'common', description: 'Piedra elegante para decoraciones', probability: 20, image: "https://i.pinimg.com/1200x/01/19/ee/0119eea295d61bb70f664cae900b0bf8.jpg" },
+  { id: 'madera', name: 'Madera', rarity: 'common', description: 'Material básico para construcciones', probability: 15, image: "https://i.pinimg.com/736x/fe/5e/f8/fe5ef8400740daf798a7f7b526b19839.jpg" },
+
+  // Raros (30% probabilidad)
+  { id: 'cristal', name: 'Cristal', rarity: 'rare', description: 'Cristal mágico con propiedades especiales', probability: 15, image: "https://i.pinimg.com/736x/73/2d/22/732d226d905778502c13719b2e490263.jpg" },
+  { id: 'acero', name: 'Acero', rarity: 'rare', description: 'Metal resistente y duradero', probability: 10, image: "https://i.pinimg.com/736x/ef/77/69/ef7769a175bbec0c7df7db722c78e9f5.jpg" },
+  { id: 'cuero', name: 'Cuero', rarity: 'rare', description: 'Material flexible para armaduras', probability: 5, image: "https://i.pinimg.com/1200x/4b/a3/66/4ba366cf29f42c263c7d5237d156fd0a.jpg" },
+
+  // Épicos (8% probabilidad)
+  { id: 'obsidiana', name: 'Obsidiana', rarity: 'epic', description: 'Piedra volcánica con poderes místicos', probability: 4, image: "https://i.pinimg.com/736x/04/a2/27/04a227dbcb17ad3abc3ee0cac4023745.jpg" },
+  { id: 'mithril', name: 'Mithril', rarity: 'epic', description: 'Metal legendario extremadamente ligero', probability: 3, image: "https://i.pinimg.com/736x/7f/7e/1d/7f7e1d43f94068c6d037db53a5a113f0.jpg" },
+  { id: 'diamante', name: 'Diamante', rarity: 'epic', description: 'Gema más dura conocida', probability: 1, image: "https://i.pinimg.com/1200x/70/6a/f8/706af88959a53b08c4d3a87fc686adc7.jpg" },
+
+  // Legendarios (2% probabilidad)
+  { id: 'adamantita', name: 'Adamantita', rarity: 'legendary', description: 'Metal indestructible de los antiguos', probability: 1, image: "https://i.pinimg.com/736x/8d/e6/5e/8de65e15968fb31fedd8c4f6c08ff39b.jpg" },
+  { id: 'esencia_fenix', name: 'Esencia de Fénix', rarity: 'legendary', description: 'Esencia de renacimiento eterno', probability: 0.5, image: "https://i.pinimg.com/736x/d6/51/6e/d6516e12c58cf301a3eb67217e37cf47.jpg" },
+  { id: 'corazon_dragon', name: 'Corazón de Dragón', rarity: 'legendary', description: 'Fuente de poder ancestral', probability: 0.5, image: "https://i.pinimg.com/736x/6b/ca/fa/6bcafa283ab4e5b1e1c2fb2057f25024.jpg" },
+];
+
 // Cartas temáticas para New Sunrise
 export const Deck = [
   { id: 1, name: "Guardabosque Al'var", type: "Guerrero", faction: "Al'var", attack: 8, defense: 12, hp: 15, ability: "+2 DEF en bosques", price: 3, image:  "https://i.pinimg.com/736x/43/f4/a7/43f4a735c4eb762d37a498d4b62d1c4e.jpg" },
@@ -49,6 +72,20 @@ export function useGameStore() {
   });
   const [navbarMaximized, setNavbarMaximized] = useState(true);
   const [currentGold, setCurrentGold] = useState(10);
+  const [inventory, setInventory] = useState({
+    'Diorita': 0,
+    'Mármol': 0,
+    'Madera': 0,
+    'Cristal': 0,
+    'Acero': 0,
+    'Cuero': 0,
+    'Obsidiana': 0,
+    'Mithril': 0,
+    'Diamante': 0,
+    'Adamantita': 0,
+    'Esencia de Fénix': 0,
+    'Corazón de Dragón': 0
+  });
 
   const buyCard = (card) => {
     if (currentGold >= card.price) {
@@ -148,6 +185,13 @@ export function useGameStore() {
       } else if (newEnemyField.length === 0) {
         setGameOver(true);
         setGameOverMessage("¡El Reino de Al'var triunfa! La sabiduría ancestral renace.");
+        setCurrentGold(prev => prev + 10);
+
+        // Generar drops por victoria
+        const drops = generateBattleDrops();
+        if (drops.length > 0) {
+          addLog(`¡Has obtenido: ${drops.map(d => d.name).join(', ')}!`);
+        }
       }
     }, 100);
   }
@@ -201,6 +245,44 @@ export function useGameStore() {
     return '#333';
   }
 
+  // Función para obtener un drop aleatorio basado en probabilidades
+  function getRandomDrop() {
+    const random = Math.random() * 100; // Número entre 0 y 100
+    let cumulativeProbability = 0;
+
+    for (const item of ITEMS) {
+      cumulativeProbability += item.probability;
+      if (random <= cumulativeProbability) {
+        return item;
+      }
+    }
+
+    // Fallback por si algo sale mal
+    return ITEMS[0];
+  }
+
+  // Función para agregar un objeto al inventario
+  function addToInventory(itemName, quantity = 1) {
+    setInventory(prev => ({
+      ...prev,
+      [itemName]: (prev[itemName] || 0) + quantity
+    }));
+  }
+
+  // Función para obtener drops al ganar una batalla
+  function generateBattleDrops() {
+    const drops = [];
+    const numDrops = Math.floor(Math.random() * 3) + 1; // 1-3 drops por batalla
+
+    for (let i = 0; i < numDrops; i++) {
+      const drop = getRandomDrop();
+      drops.push(drop);
+      addToInventory(drop.name);
+    }
+
+    return drops;
+  }
+
   function handleMenuChange(newMenu) {
     setMenu(newMenu);
     if (gameOver && newMenu !== 'battle') {
@@ -223,6 +305,7 @@ export function useGameStore() {
     enemyStone,
     navbarMaximized,
     currentGold,
+    inventory,
     // Functions
     setPlayerDeck,
     setPlayerField,
@@ -237,6 +320,7 @@ export function useGameStore() {
     setEnemyStone,
     setNavbarMaximized,
     setCurrentGold,
+    setInventory,
     buyCard,
     addLog,
     updateRunicStone,
@@ -246,5 +330,8 @@ export function useGameStore() {
     resetGame,
     getFactionColor,
     handleMenuChange,
+    getRandomDrop,
+    addToInventory,
+    generateBattleDrops,
   };
 }
