@@ -6,6 +6,8 @@ import MainMenu from "./components/MainMenu";
 import Cards from "./components/Cards";
 import Shop from "./components/Shop";
 import Inventory from "./components/Inventory";
+import Tabs from "./components/Tabs";
+import Map from "./components/Map";
 import { useGameStore } from "./hooks/useGameStore";
 import "./App.css";
 
@@ -21,6 +23,8 @@ export default function App() {
     handleMenuChange,
     resetGame,
     inventory,
+    currentEnemyIndex,
+    defeatedEnemies,
   } = gameStore;
 
   return (
@@ -43,6 +47,8 @@ export default function App() {
           <p style={{ color: '#666' }}>Al'var vs Mat'ais - La batalla por el futuro</p>
         </header>
 
+
+
         {gameOver ? (
           <div style={{ textAlign: 'center' }}>
             <h2>{gameOverMessage}</h2>
@@ -56,13 +62,15 @@ export default function App() {
         ) : menu === 'battle' ? (
           <Battle gameStore={gameStore} />
         ) : menu === 'cards' ? (
-          <Cards onBack={() => handleMenuChange('menu')} />
+          <Cards onBack={() => handleMenuChange('home')} />
         ) : menu === 'inventory' ? (
-          <Inventory onBack={() => handleMenuChange('menu')} inventory={inventory} />
+          <Inventory onBack={() => handleMenuChange('home')} inventory={inventory} />
         ) : menu === 'shop' ? (
           <Shop gameStore={gameStore} onBack={() => handleMenuChange('battle')} />
         ) : menu === 'lore' ? (
           <Lore onBack={() => handleMenuChange('battle')} />
+        ) : menu === 'map' ? (
+          <Map currentEnemyIndex={currentEnemyIndex} defeatedEnemies={defeatedEnemies} onBack={() => handleMenuChange('home')} onStartBattle={gameStore.startBattleWithEnemy} />
         ) : (
           <MainMenu onMenuChange={handleMenuChange} />
         )}

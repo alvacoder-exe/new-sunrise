@@ -44,7 +44,8 @@ function Battle({ gameStore }) {
             width: '200px',
             border: '1px solid #000'
           }}>
-            <div style={{
+            <div className="barra-de-crecimiento" style={{
+              justifyContent: 'flex-end',
               background: '#FF4500',
               height: '100%',
               width: `${(enemyStone.charge / enemyStone.maxCharge) * 100}%`,
@@ -85,8 +86,7 @@ function Battle({ gameStore }) {
                   style={{
                     background: selectedAttacker === card.id ? '#2E8B57' : '#ccc',
                     color: selectedAttacker === card.id ? 'white' : 'black',
-                    bottom: '10px',
-                    left: '10px',
+                    
                     padding: '0.3rem 0.6rem',
                     border: 'none',
                     borderRadius: '4px',

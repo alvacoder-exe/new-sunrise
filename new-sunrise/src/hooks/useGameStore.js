@@ -25,19 +25,41 @@ export const ITEMS = [
 
 // Cartas temáticas para New Sunrise
 export const Deck = [
-  { id: 1, name: "Guardabosque Al'var", type: "Guerrero", faction: "Al'var", attack: 8, defense: 12, hp: 15, ability: "+2 DEF en bosques", price: 3, image:  "https://i.pinimg.com/736x/43/f4/a7/43f4a735c4eb762d37a498d4b62d1c4e.jpg" },
-  { id: 2, name: "Druida de las Runas", type: "Mago", faction: "Al'var", attack: 12, defense: 6, hp: 10, ability: "Cura 3 HP aliado", price: 3, image: "https://i.pinimg.com/736x/26/f3/6b/26f36b4473e01c56228ebd4076534398.jpg" },
-  { id: 3, name: "Espíritu del Bosque", type: "Criatura", faction: "Al'var", attack: 10, defense: 8, hp: 12, ability: "Esquivar primer ataque", price: 3, image: "https://i.pinimg.com/736x/29/ef/25/29ef25018072aed071cdc8091058e30b.jpg" },
-  { id: 6, name: "Soldado de Mat'ais", type: "Guerrero", faction: "Mat'ais", attack: 12, defense: 7, hp: 12, ability: "+2 ATK primera ronda", price: 4, image: "https://i.pinimg.com/736x/8c/16/c9/8c16c9ab9f8d6454ca4a157a7e822038.jpg" },
-  { id: 7, name: "Ingeniero de Guerra", type: "Técnico", faction: "Mat'ais", attack: 9, defense: 11, hp: 11, ability: "Reparar 5 HP aliado", price: 3, image: "https://i.pinimg.com/736x/80/fd/68/80fd681ccfaeaa4a4c19e25382084422.jpg" },
-  { id: 8, name: "Golem de Escoria", type: "Máquina", faction: "Mat'ais", attack: 15, defense: 13, hp: 16, ability: "Ignora 3 DEF", price: 10, image: "https://i.pinimg.com/736x/4e/56/e8/4e56e8d361e431d168e6c4830ac0931f.jpg" },
-  { id: 9, name: "Artillero de Vapor", type: "Técnico", faction: "Mat'ais", attack: 13, defense: 5, hp: 10, ability: "Daño área 2", price: 6, image: "https://i.pinimg.com/736x/13/dc/50/13dc501555989ffe8dabfc514271946e.jpg" },
-  { id: 10, name: "Asalto Sombrío", type: "Guerrero", faction: "Mat'ais", attack: 11, defense: 8, hp: 11, ability: "Ataque rápido", price: 8, image: "https://i.pinimg.com/736x/2d/7a/e1/2d7ae13d5de050192db0d2f0326d2120.jpg" },
-  { id: 11, name: "Protector de Núcleos", type: "Máquina", faction: "Mat'ais", attack: 3, defense: 10, hp: 14, ability: "Protege a sus aliados", price: 3, image: "https://i.pinimg.com/736x/62/03/98/6203988497d7023f5ec45c05e254c1fc.jpg" },
-  { id: 12, name: "Mago de Vapor", type: "Mago", faction: "Mat'ais", attack: 8, defense: 8, hp: 12, ability: "Daño área 1", price: 3, image: "https://i.pinimg.com/736x/01/d9/04/01d9048aca131e28b7b842f5739ae6f0.jpg" },
-  { id: 13, name: "Destructor de Almas", type: "Guerrero", faction: "Mat'ais", attack: 16, defense: 6, hp: 10, ability: "Roba vida igual a daño", price: 10, image: "https://i.pinimg.com/736x/c4/50/5d/c4505d33125c76ccf5ee167bb18ac2bb.jpg" },
-  { id: 14, name: "Guardián de Almas", type: "Mago", faction: "Mat'ais", attack: 6, defense: 8, hp: 14, ability: "Restaura vida a aliados", price: 3, image: "https://i.pinimg.com/736x/30/38/6e/30386eedd694f40b2449fe2228a90f4b.jpg" },
+  { id: 1, name: "Guardabosque Al'var", type: "Guerrero", faction: "Al'var", attack: 8, defense: 12, hp: 15, ability: "+2 DEF en bosques", price: 3, image:  "https://i.pinimg.com/736x/43/f4/a7/43f4a735c4eb762d37a498d4b62d1c4e.jpg", tier: 1 },
+  { id: 2, name: "Druida de las Runas", type: "Mago", faction: "Al'var", attack: 12, defense: 6, hp: 10, ability: "Cura 3 HP aliado", price: 3, image: "https://i.pinimg.com/736x/26/f3/6b/26f36b4473e01c56228ebd4076534398.jpg", tier: 1 },
+  { id: 3, name: "Espíritu del Bosque", type: "Criatura", faction: "Al'var", attack: 10, defense: 8, hp: 12, ability: "Esquivar primer ataque", price: 3, image: "https://i.pinimg.com/736x/29/ef/25/29ef25018072aed071cdc8091058e30b.jpg", tier: 1 },
+  { id: 6, name: "Soldado de Mat'ais", type: "Guerrero", faction: "Mat'ais", attack: 12, defense: 7, hp: 12, ability: "+2 ATK primera ronda", price: 4, image: "https://i.pinimg.com/736x/8c/16/c9/8c16c9ab9f8d6454ca4a157a7e822038.jpg", tier: 2 },
+  { id: 7, name: "Ingeniero de Guerra", type: "Técnico", faction: "Mat'ais", attack: 9, defense: 11, hp: 11, ability: "Reparar 5 HP aliado", price: 3, image: "https://i.pinimg.com/736x/80/fd/68/80fd681ccfaeaa4a4c19e25382084422.jpg", tier: 2 },
+  { id: 8, name: "Golem de Escoria", type: "Máquina", faction: "Mat'ais", attack: 15, defense: 13, hp: 16, ability: "Ignora 3 DEF", price: 10, image: "https://i.pinimg.com/736x/4e/56/e8/4e56e8d361e431d168e6c4830ac0931f.jpg", tier: 2 },
+  { id: 9, name: "Artillero de Vapor", type: "Técnico", faction: "Mat'ais", attack: 13, defense: 5, hp: 10, ability: "Daño área 2", price: 6, image: "https://i.pinimg.com/736x/13/dc/50/13dc501555989ffe8dabfc514271946e.jpg", tier: 3 },
+  { id: 10, name: "Asalto Sombrío", type: "Guerrero", faction: "Mat'ais", attack: 11, defense: 8, hp: 11, ability: "Ataque rápido", price: 8, image: "https://i.pinimg.com/736x/2d/7a/e1/2d7ae13d5de050192db0d2f0326d2120.jpg", tier: 3 },
+  { id: 11, name: "Protector de Núcleos", type: "Máquina", faction: "Mat'ais", attack: 3, defense: 10, hp: 14, ability: "Protege a sus aliados", price: 3, image: "https://i.pinimg.com/736x/62/03/98/6203988497d7023f5ec45c05e254c1fc.jpg", tier: 3 },
+  { id: 12, name: "Mago de Vapor", type: "Mago", faction: "Mat'ais", attack: 8, defense: 8, hp: 12, ability: "Daño área 1", price: 3, image: "https://i.pinimg.com/736x/01/d9/04/01d9048aca131e28b7b842f5739ae6f0.jpg", tier: 4 },
+  { id: 13, name: "Destructor de Almas", type: "Guerrero", faction: "Mat'ais", attack: 16, defense: 6, hp: 10, ability: "Roba vida igual a daño", price: 10, image: "https://i.pinimg.com/736x/c4/50/5d/c4505d33125c76ccf5ee167bb18ac2bb.jpg", tier: 4 },
+  { id: 14, name: "Guardián de Almas", type: "Mago", faction: "Mat'ais", attack: 6, defense: 8, hp: 14, ability: "Restaura vida a aliados", price: 3, image: "https://i.pinimg.com/736x/30/38/6e/30386eedd694f40b2449fe2228a90f4b.jpg", tier: 4 },
 ];
+
+// Enemigos clasificados por tier
+export const Enemies = [
+  { id: 1, name: "Bandido Novato", tier: 1, description: "Un ladrón inexperto que busca fortuna fácil", image: "https://i.pinimg.com/736x/8c/16/c9/8c16c9ab9f8d6454ca4a157a7e822038.jpg", reward: 20 },
+  { id: 2, name: "Mercenario Experimentado", tier: 2, description: "Un guerrero veterano con habilidades probadas", image: "https://i.pinimg.com/736x/75/61/21/756121b1b83bfbd864aa45081bed3399.jpg", reward: 35 },
+  { id: 3, name: "Señor de la Guerra", tier: 3, description: "Un comandante legendario con ejército propio", image: "https://i.pinimg.com/736x/c4/50/5d/c4505d33125c76ccf5ee167bb18ac2bb.jpg", reward: 50 },
+  { id: 4, name: "Emperador Oscuro", tier: 4, description: "El gobernante supremo con poder absoluto", image: "https://i.pinimg.com/736x/4e/56/e8/4e56e8d361e431d168e6c4830ac0931f.jpg", reward: 75 },
+];
+
+// Clasificación de cartas por tier basado en propiedad tier
+const tier1Cards = Deck.filter(card => card.tier === 1);
+const tier2Cards = Deck.filter(card => card.tier === 2);
+const tier3Cards = Deck.filter(card => card.tier === 3);
+const tier4Cards = Deck.filter(card => card.tier === 4);
+
+function getCurrentTierCards(currentEnemyIndex) {
+  const tier = Enemies[currentEnemyIndex]?.tier || 1;
+  if (tier === 1) return tier1Cards;
+  if (tier === 2) return tier2Cards;
+  if (tier === 3) return tier3Cards;
+  return tier4Cards;
+}
 
 function getInitialHand(deck) {
   const shuffled = [...deck].sort(() => Math.random() - 0.5);
@@ -51,13 +73,15 @@ export function useGameStore() {
     { id: 3, name: "Lobrego salvaje", type: "Lobo", faction: null, attack: 13, defense: 4, hp: 12, ability: null, price: 5, image: "https://i.pinimg.com/736x/89/e9/14/89e914bf17586c61788dce214ddbe906.jpg" },
   ]);
   const [playerField, setPlayerField] = useState(() => getInitialHand(playerDeck.slice(0, 3)));
-  const [enemyField, setEnemyField] = useState(() => getInitialHand(Deck));
+  const [enemyField, setEnemyField] = useState(() => getInitialHand(getCurrentTierCards(0)));
   const [turn, setTurn] = useState('player');
   const [selectedAttacker, setSelectedAttacker] = useState(null);
   const [log, setLog] = useState([]);
   const [gameOver, setGameOver] = useState(false);
-  const [menu, setMenu] = useState('battle');
+  const [menu, setMenu] = useState('home');
   const [gameOverMessage, setGameOverMessage] = useState("");
+  const [currentEnemyIndex, setCurrentEnemyIndex] = useState(0);
+  const [defeatedEnemies, setDefeatedEnemies] = useState([]);
   const [playerStone, setPlayerStone] = useState({
     name: "Semilla Ancestral",
     growth: 0,
@@ -116,10 +140,25 @@ export function useGameStore() {
 
   useEffect(() => {
     if (enemyField.length === 0 && !gameOver) {
-      setGameOver(true);
-      setCurrentGold(prev => prev + 10);
+      setDefeatedEnemies(prev => [...prev, currentEnemyIndex]);
+      setCurrentGold(prev => prev + Enemies[currentEnemyIndex].reward);
+      if (currentEnemyIndex + 1 >= Enemies.length) {
+        setGameOver(true);
+        setGameOverMessage("¡Has derrotado a todos los enemigos! ¡Victoria total!");
+      } else {
+        const newIndex = currentEnemyIndex + 1;
+        setCurrentEnemyIndex(newIndex);
+        // Reset battle for next enemy
+        setPlayerField(() => getInitialHand(playerDeck.slice(0, 3)));
+        setEnemyField(() => getInitialHand(getCurrentTierCards(newIndex)));
+        setTurn('player');
+        setSelectedAttacker(null);
+        setLog([]);
+        setPlayerStone(prev => ({ ...prev, growth: 0 }));
+        setEnemyStone(prev => ({ ...prev, charge: 0 }));
+      }
     }
-  }, [enemyField, gameOver]);
+  }, [enemyField, gameOver, currentEnemyIndex, playerDeck]);
 
   function updateRunicStone(attacker) {
     if (attacker === "player") {
@@ -228,7 +267,23 @@ export function useGameStore() {
 
   function resetGame() {
     setPlayerField(getInitialHand(playerDeck.slice(0, 3)));
-    setEnemyField(getInitialHand(Deck.slice(0, 12)));
+    setEnemyField(getInitialHand(getCurrentTierCards(currentEnemyIndex)));
+    setTurn('player');
+    setSelectedAttacker(null);
+    setLog([]);
+    setGameOver(false);
+    setMenu('battle');
+    setGameOverMessage("");
+    setCurrentEnemyIndex(0);
+    setDefeatedEnemies([]);
+    setPlayerStone({ name: "Semilla Ancestral", growth: 0, maxGrowth: 10, ability: "Potencia un soldado" });
+    setEnemyStone({ name: "Núcleo de Voluntad", charge: 0, maxCharge: 8, ability: "Rayo Devastador" });
+  }
+
+  function startBattleWithEnemy(enemyIndex) {
+    setCurrentEnemyIndex(enemyIndex);
+    setPlayerField(getInitialHand(playerDeck.slice(0, 3)));
+    setEnemyField(getInitialHand(getCurrentTierCards(enemyIndex)));
     setTurn('player');
     setSelectedAttacker(null);
     setLog([]);
@@ -301,6 +356,8 @@ export function useGameStore() {
     gameOver,
     menu,
     gameOverMessage,
+    currentEnemyIndex,
+    defeatedEnemies,
     playerStone,
     enemyStone,
     navbarMaximized,
@@ -328,6 +385,7 @@ export function useGameStore() {
     playerAttackTarget,
     enemyPlay,
     resetGame,
+    startBattleWithEnemy,
     getFactionColor,
     handleMenuChange,
     getRandomDrop,

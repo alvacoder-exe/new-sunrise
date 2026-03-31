@@ -57,19 +57,6 @@ function Navbar({ onMenuChange, isMaximized, onToggleMaximize, currentMenu }) {
 
       <div className="menu-button" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
         <button
-          onClick={() => onMenuChange('battle')}
-          style={{
-            background: currentMenu === 'battle' ? '#3498db' : '#34495e',
-            color: 'white',
-            border: 'none',
-            padding: '0.5rem',
-            borderRadius: '5px',
-            cursor: 'pointer'
-          }}
-        >
-          ⚔️ Batalla
-        </button>
-        <button
           onClick={() => onMenuChange('cards')}
           style={{
             background: currentMenu === 'cards' ? '#3498db' : '#34495e',
@@ -122,7 +109,20 @@ function Navbar({ onMenuChange, isMaximized, onToggleMaximize, currentMenu }) {
           📖 Historia
         </button>
         <button
-          onClick={() => onMenuChange('menu')}
+          onClick={() => onMenuChange('map')}
+          style={{
+            background: currentMenu === 'map' ? '#3498db' : '#34495e',
+            color: 'white',
+            border: 'none',
+            padding: '0.5rem',
+            borderRadius: '5px',
+            cursor: 'pointer'
+          }}
+        >
+          🗺️ Mapa
+        </button>
+        <button
+          onClick={() => onMenuChange('home')}
           style={{
             background: '#e74c3c',
             color: 'white',
@@ -133,7 +133,7 @@ function Navbar({ onMenuChange, isMaximized, onToggleMaximize, currentMenu }) {
             marginTop: '0.5rem'
           }}
         >
-          🏠 Menú Principal
+          🏠 Inicio
         </button>
       </div>
     </div>
